@@ -272,7 +272,7 @@ SmallVec<tSize,tType> normalize( SmallVec<tSize,tType> const& aVec ) noexcept
 {
 	tType len = length(aVec);
 	for ( std::size_t i = 0; i < tSize; ++i )
-		aVec[i] = aVec[i] / len;
+		aVec[i] /= len;
 
 	return aVec; //TODO: implement me
 }
@@ -281,7 +281,6 @@ SmallVec<tSize,tType> normalize( SmallVec<tSize,tType> const& aVec ) noexcept
 template< typename tType > constexpr
 SmallVec<3,tType> cross( SmallVec<3,tType> const& aLhs, SmallVec<3,tType> const& aRhs ) noexcept
 {
-	tType sum = 0;
 	SmallVec<3,tType> ret{};
 	ret[0] = aLhs[1] * aRhs[2] - aLhs[2] * aRhs[1];
 	ret[1] = aLhs[2] * aRhs[0] - aLhs[0] * aRhs[2];
