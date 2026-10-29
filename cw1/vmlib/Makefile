@@ -32,7 +32,7 @@ INCLUDES += -Iinclude
 FORCE_INCLUDE +=
 ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-LIBS += -lstdc++exp -lOpenGL32
+LIBS += -lstdc++exp -ldl
 LDDEPS +=
 LINKCMD = $(AR) -rcs "$@" $(OBJECTS)
 define PREBUILDCMDS
@@ -44,7 +44,7 @@ endef
 
 ifeq ($(config),debug_x64)
 TARGETDIR = ../lib
-TARGET = $(TARGETDIR)/vmlib-debug-x64-gcc.lib
+TARGET = $(TARGETDIR)/libvmlib-debug-x64-gcc.a
 OBJDIR = ../_build_/debug-x64-gcc/x64/debug/vmlib
 DEFINES += -D_DEBUG=1
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g -mavx2 -fvisibility=hidden -march=native -Wall -pthread -Werror=vla
@@ -53,7 +53,7 @@ ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -pthread
 
 else ifeq ($(config),release_x64)
 TARGETDIR = ../lib
-TARGET = $(TARGETDIR)/vmlib-release-x64-gcc.lib
+TARGET = $(TARGETDIR)/libvmlib-release-x64-gcc.a
 OBJDIR = ../_build_/release-x64-gcc/x64/release/vmlib
 DEFINES += -DNDEBUG=1
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -mavx2 -fvisibility=hidden -march=native -Wall -pthread -Werror=vla

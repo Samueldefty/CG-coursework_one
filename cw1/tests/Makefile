@@ -47,8 +47,8 @@ OBJDIR = ../_build_/debug-x64-gcc/x64/debug/tests
 DEFINES += -D_DEBUG=1
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g -mavx2 -fvisibility=hidden -march=native -Wall -pthread -Werror=vla
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -mavx2 -fvisibility=hidden -std=c++23 -march=native -Wall -pthread -Werror=vla
-LIBS += ../lib/vmlib-debug-x64-gcc.lib ../lib/x-snitch-debug-x64-gcc.lib -lstdc++exp -lOpenGL32
-LDDEPS += ../lib/vmlib-debug-x64-gcc.lib ../lib/x-snitch-debug-x64-gcc.lib
+LIBS += ../lib/libvmlib-debug-x64-gcc.a ../lib/libx-snitch-debug-x64-gcc.a -lstdc++exp -ldl
+LDDEPS += ../lib/libvmlib-debug-x64-gcc.a ../lib/libx-snitch-debug-x64-gcc.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -pthread
 
 else ifeq ($(config),release_x64)
@@ -58,8 +58,8 @@ OBJDIR = ../_build_/release-x64-gcc/x64/release/tests
 DEFINES += -DNDEBUG=1
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -mavx2 -fvisibility=hidden -march=native -Wall -pthread -Werror=vla
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -mavx2 -fvisibility=hidden -std=c++23 -march=native -Wall -pthread -Werror=vla
-LIBS += ../lib/vmlib-release-x64-gcc.lib ../lib/x-snitch-release-x64-gcc.lib -lstdc++exp -lOpenGL32
-LDDEPS += ../lib/vmlib-release-x64-gcc.lib ../lib/x-snitch-release-x64-gcc.lib
+LIBS += ../lib/libvmlib-release-x64-gcc.a ../lib/libx-snitch-release-x64-gcc.a -lstdc++exp -ldl
+LDDEPS += ../lib/libvmlib-release-x64-gcc.a ../lib/libx-snitch-release-x64-gcc.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s -pthread
 
 endif
@@ -75,11 +75,9 @@ GENERATED :=
 OBJECTS :=
 
 GENERATED += $(OBJDIR)/matrix_layout.o
-GENERATED += $(OBJDIR)/test.o
 GENERATED += $(OBJDIR)/vec2.o
 GENERATED += $(OBJDIR)/vector_layout.o
 OBJECTS += $(OBJDIR)/matrix_layout.o
-OBJECTS += $(OBJDIR)/test.o
 OBJECTS += $(OBJDIR)/vec2.o
 OBJECTS += $(OBJDIR)/vector_layout.o
 
@@ -146,9 +144,6 @@ endif
 # #############################################
 
 $(OBJDIR)/matrix_layout.o: matrix_layout.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/test.o: test.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/vec2.o: vec2.cpp

@@ -1,5 +1,5 @@
 #include <nanobench.h>
-#include <vmlib\small_matrix.hpp>
+#include <vmlib/small_matrix.hpp>
 
 
 template <std::size_t tN, typename tType>

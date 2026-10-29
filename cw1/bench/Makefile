@@ -47,8 +47,8 @@ OBJDIR = ../_build_/debug-x64-gcc/x64/debug/bench
 DEFINES += -D_DEBUG=1
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -g -mavx2 -fvisibility=hidden -march=native -Wall -pthread -Werror=vla
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -g -mavx2 -fvisibility=hidden -std=c++23 -march=native -Wall -pthread -Werror=vla
-LIBS += ../lib/vmlib-debug-x64-gcc.lib ../lib/x-nanobench-debug-x64-gcc.lib -lstdc++exp -lOpenGL32
-LDDEPS += ../lib/vmlib-debug-x64-gcc.lib ../lib/x-nanobench-debug-x64-gcc.lib
+LIBS += ../lib/libvmlib-debug-x64-gcc.a ../lib/libx-nanobench-debug-x64-gcc.a -lstdc++exp -ldl
+LDDEPS += ../lib/libvmlib-debug-x64-gcc.a ../lib/libx-nanobench-debug-x64-gcc.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -pthread
 
 else ifeq ($(config),release_x64)
@@ -58,8 +58,8 @@ OBJDIR = ../_build_/release-x64-gcc/x64/release/bench
 DEFINES += -DNDEBUG=1
 ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -mavx2 -fvisibility=hidden -march=native -Wall -pthread -Werror=vla
 ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O2 -mavx2 -fvisibility=hidden -std=c++23 -march=native -Wall -pthread -Werror=vla
-LIBS += ../lib/vmlib-release-x64-gcc.lib ../lib/x-nanobench-release-x64-gcc.lib -lstdc++exp -lOpenGL32
-LDDEPS += ../lib/vmlib-release-x64-gcc.lib ../lib/x-nanobench-release-x64-gcc.lib
+LIBS += ../lib/libvmlib-release-x64-gcc.a ../lib/libx-nanobench-release-x64-gcc.a -lstdc++exp -ldl
+LDDEPS += ../lib/libvmlib-release-x64-gcc.a ../lib/libx-nanobench-release-x64-gcc.a
 ALL_LDFLAGS += $(LDFLAGS) -L/usr/lib64 -m64 -s -pthread
 
 endif
