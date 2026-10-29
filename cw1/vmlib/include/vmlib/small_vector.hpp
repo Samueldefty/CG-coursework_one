@@ -270,11 +270,12 @@ tType length( SmallVec<tSize,tType> const& aVec ) noexcept
 template< std::size_t tSize, typename tType > constexpr
 SmallVec<tSize,tType> normalize( SmallVec<tSize,tType> const& aVec ) noexcept
 {
+	auto result = aVec;
 	tType len = length(aVec);
 	for ( std::size_t i = 0; i < tSize; ++i )
-		aVec[i] /= len;
+		result[i] /= len;
 
-	return aVec; //TODO: implement me
+	return result; //TODO: implement me
 }
 
 // Only for Vec<3,type>
