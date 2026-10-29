@@ -118,6 +118,7 @@ template< std::size_t tN, typename tType, std::size_t tM > inline
 void gauss( SmallMat<tN,tN,tType> aMat, SmallMat<tN,tM,tType>& aResult ) noexcept
 {
 	// TODO-Task 2.1 only: implement me
+	aResult = SmallMat<tN,tM,tType>{}; // zero ness it
 
 	// the set up
 	if constexpr (tN == tM) {
@@ -130,7 +131,7 @@ void gauss( SmallMat<tN,tN,tType> aMat, SmallMat<tN,tM,tType>& aResult ) noexcep
 
 	// pivoting
 	for ( std::size_t i = 0; i < tN - 1; ++i ) {
-		int pivotRow = i;
+		std::size_t pivotRow = i;
 		for ( std::size_t j = i + 1; j < tN; ++j ) {
 			if ( std::abs(aMat[j,i]) > std::abs(aMat[pivotRow,i]))
 				pivotRow = j;
@@ -138,6 +139,8 @@ void gauss( SmallMat<tN,tN,tType> aMat, SmallMat<tN,tM,tType>& aResult ) noexcep
 		if (pivotRow != i) {
 			for ( std::size_t a = 0; a < tN; ++a) {
 				std::swap(aMat[i,a], aMat[pivotRow,a]);
+			}
+			for ( std::size_t a = 0; a < tM; ++a) {
 				std::swap(aResult[i,a], aResult[pivotRow,a]);
 			}
 		}
@@ -149,22 +152,28 @@ void gauss( SmallMat<tN,tN,tType> aMat, SmallMat<tN,tM,tType>& aResult ) noexcep
 			tType damult = aMat[j,i] / aMat[i,i];
 			for ( std::size_t k = 0; k < tN; ++k ) {
 				aMat[j,k] -= damult * aMat[i,k];
+			}
+			for ( std::size_t k = 0; k < tM; ++k) {
 				aResult[j,k] -= damult * aResult[i,k];
 			}
 		}
 	}
 
 	// backwards
-	for ( std::size_t i = tN - 1; i > 0; --i ) {
+	for ( std::size_t i = tN; i --> 0; ) {
 		tType dimult = aMat[i,i];
 		for ( std::size_t j = 0; j < tN; ++j) {
 			aMat[i,j] /= dimult;
+		}
+		for ( std::size_t j = 0; j < tM; ++j) {
 			aResult[i,j] /= dimult;
 		}
 		for ( std::size_t k = 0; k < i; ++k ) {
 			tType damult = aMat[k, i];
 			for ( std::size_t a = 0; a < tN; ++a) { 
 				aMat[k,a] -= damult * aMat[i,a];
+			}
+			for ( std::size_t a = 0; a < tM; ++a) { 
 				aResult[k,a] -= damult * aResult[i,a];
 			}
 		}
@@ -172,7 +181,11 @@ void gauss( SmallMat<tN,tN,tType> aMat, SmallMat<tN,tM,tType>& aResult ) noexcep
 }
 
 template< std::size_t tN, typename tType > // Must be square!
-SmallMat<tN,tN,tType> invert( SmallMat<tN,tN,tType> const& ) noexcept;
+SmallMat<tN,tN,tType> invert( SmallMat<tN,tN,tType> const& aMat) noexcept {
+	SmallMat<tN, tN, tType> result{};
+	gauss(aMat, result);
+	return result;
+}
 
 template<>
 SmallMat<4,4,float> invert( SmallMat<4,4,float> const& ) noexcept;

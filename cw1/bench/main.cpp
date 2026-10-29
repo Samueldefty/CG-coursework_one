@@ -1,22 +1,37 @@
 #include <nanobench.h>
+#include <vmlib\small_matrix.hpp>
+
+
+template <std::size_t tN, typename tType>
+void bench() {
+	ankerl::nanobench::Bench b;
+
+	SmallMat<tN,tN,tType> Mac{};
+
+	b.run( 
+		"Inversion tN=" + std::to_string(tN), [&] {
+			ankerl::nanobench::doNotOptimizeAway(invert(Mac));
+		}
+	);
+	b.run( 
+		"Mutliplication tN=" + std::to_string(tN), [&] {
+			ankerl::nanobench::doNotOptimizeAway(Mac * Mac);
+		}
+	);
+
+
+}
 
 int main()
 {
 	// This is essentially the example from https://nanobench.ankerl.com/
-	float f = 1.f;
 
-	ankerl::nanobench::Bench b;
-	// You can configure things here.
+	bench<4, float>();
+	bench<10, float>();
+	bench<20, float>();
+	bench<50, float>();
+	bench<100, float>();
 
-	b.run( "some float ops", [&] {
-		f += 1.f / f;
-		if( f > 5.f )
-			f -= 5.f;
-
-		// Without the following, the result in f is never used, and therefore
-		// a compiler might optimize away the computations.
-		ankerl::nanobench::doNotOptimizeAway( f );
-	} );
 
 	
 	return 0;
