@@ -62,11 +62,11 @@ template< std::size_t tM, std::size_t tN, std::size_t tP, typename tType > const
 SmallMat<tM,tP,tType> operator*( SmallMat<tM,tN,tType> const& aLhs, SmallMat<tN,tP,tType> const& aRhs ) noexcept
 {
 	SmallMat<tM,tP,tType> ret{};
-	
+
 	for ( std::size_t i = 0; i < tM; ++i ) { // this is for the rows
-		for ( std::size_t j = 0; j < tN; ++j ) { // this is for the columns
+		for ( std::size_t j = 0; j < tP; ++j ) { // this is for the columns
 			tType sum = 0;
-			for ( std::size_t k = 0; k < tP; ++k ) { // this is for changing within the row and column
+			for ( std::size_t k = 0; k < tN; ++k ) { // this is for changing within the row and column
 				sum += aLhs[i,k] * aRhs[k,j];
 			}
 			ret[i,j] = sum;
