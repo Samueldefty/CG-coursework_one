@@ -64,8 +64,10 @@ SmallMat<tM,tP,tType> operator*( SmallMat<tM,tN,tType> const& aLhs, SmallMat<tN,
 	SmallMat<tM,tP,tType> ret{};
 	for ( std::size_t i = 0; i < tM; ++i ) // this is for the rows
 		for ( std::size_t j = 0; j < tN; ++j ) // this is for the columns
+			tType sum = 0;
 			for ( std::size_t k = 0; k < tP; ++k ) // this is for changing within the row and column
-				ret[i,j] += aLhs[i,k] * aRhs[k,j];
+				sum += aLhs[i,k] * aRhs[k,j];
+			ret[i,j] = sum;
 
 	return ret; //TODO: implement me
 }
